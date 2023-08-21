@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth;
+use App\Http\Controllers\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +21,9 @@ Route::get('/', function () {
 Route::get('/new', function () {
     return view('new');
 });
+
+Route::match(['get', 'post'], '/login', [Auth::class,"login"])->middleware('Authenticated');
+Route::match(['get', 'post'], '/register', [Auth::class,"register"])->middleware('Authenticated');
+// Route::get('/dashboard', [Dashboard::class,'index']);
+Route::get('/dashboard', [Auth::class,'dashboard'])->middleware('NotAuthenticated');
+Route::get('/logout', [Auth::class,'logout'])->middleware('NotAuthenticated');
